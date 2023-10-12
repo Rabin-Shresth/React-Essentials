@@ -1,3 +1,6 @@
+// GraphQL : way of creating an API
+// fetching data with GraphQL
+
 import './App.css';
 import { useState, useEffect } from 'react';
 

@@ -1,26 +1,13 @@
+// Handling Loading States in React
+
 import './App.css';
 import { useState, useEffect } from 'react';
 
-const query = `query{
-  allLifts{
-    name
-    elevationGain
-    status
-  }
-}
-`;
-
-const opts = {
-  method: "POST",
-  headers: {"Content-Type": "application/json"},
-  body: JSON.stringify({query})
-};
-
-function Lift({name, elevationGain, status}){
+function GithubUser({name,avatar}){
   return(
     <div>
       <h1>{name}</h1>
-      <p>{elevationGain} {status}</p>
+      <img src={avatar} height={160} alt='rabin'/>
     </div>
   )
 }
@@ -32,20 +19,15 @@ function App() {
   useEffect(()=>{
     setLoading(true);
     fetch(
-      `http://snowtooth.moonhighway.com/`, opts
+      `https://api.github.com/users/rabin-shresth`
     ).then((response) => response.json()).then(setData).then(()=> setLoading(false)).catch(setError);
   },[]);
-
   if(loading) return <h1>Loading...</h1>;
   if(error) return <pre>{JSON.stringify(error)}</pre>
   if(!data) return null;
   return(
-    <div>
-      {data.data.allLifts.map((lift)=>(
-        <Lift name={lift.name} elevationGain={lift.elevationGain} status={lift.status}/>
-      ))}
-    </div>
-  );
+    <GithubUser name={data.name} avatar={data.avatar_url}/>
+  )
 }
 
 export default App;
